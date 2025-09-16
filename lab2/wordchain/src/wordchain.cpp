@@ -1,9 +1,11 @@
+// isape817 rasda103
+
 #include <fstream>
 #include <iostream>
 #include <string>
 #include <queue>
 #include <stack>
-#include <set>
+#include <unordered_set>
 using namespace std;
 
 const char ALPHABET[]  = "abcdefghijklmnopqrstuvwxyz";
@@ -20,18 +22,18 @@ int main() {
     cin >> start;
     cin >> end;
     cout << "Chain from " << end << " back to " << start << endl;
-    // TODO: Finish the program!
 
-    ifstream dictionary("dictionary.txt");
+    ifstream fileStream("dictionary.txt");
     string word;
-    set<string> dict;
+    unordered_set<string> dict;
 
-    while( getline(dictionary, word)) {
-        dictionary >> word;
+    while( getline(fileStream, word)) {
+        fileStream >> word;
         dict.insert(word);
     }
 
-
+    if ( dict.count("hello") == 1)
+        cout << "found" << endl;
 
     return 0;
 }
