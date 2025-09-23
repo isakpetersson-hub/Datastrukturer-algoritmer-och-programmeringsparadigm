@@ -1,3 +1,5 @@
+// isape817 rasda103
+
 #include <iostream>
 #include <fstream>
 #include "grid.h"
