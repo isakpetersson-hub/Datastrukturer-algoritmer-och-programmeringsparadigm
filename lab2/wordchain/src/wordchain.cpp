@@ -7,13 +7,13 @@
 #include <stack>
 #include <list>
 #include <unordered_set>
+
 using namespace std;
 
 const char ALPHABET[]  = "abcdefghijklmnopqrstuvwxyz";
 
-list<string> findNeighbor(string word){
-    //do shit
-}
+void findNeighbours(const string& word, const unordered_set<string>& dictionary, list<string>& neighbours);
+void printWordChain( stack<string>& chain );
 
 int main() {
     cout << "Welcome to TDDD86 Word Chain." << endl;
@@ -39,27 +39,54 @@ int main() {
 
     queue<stack<string>> wordQueue;
     unordered_set<string> usedWords; //Weird ass lösning finns nog bättre
+
     stack<string> current;
     current.push(start);
     wordQueue.push(current);
+
     while( !wordQueue.empty()){
         current = wordQueue.front();
         wordQueue.pop();
         if(current.top() == end){
-            cout << "Chain found" << endl;
+            printWordChain( current );
             break;
         }
         else{
-            list<string> neighbor = findNeighbor(current.top());
-            for(string neighbor : neighbor){
-                if(usedWords.count(neighbor) == 1){ // Weird ass lösning finns nog bättre
-                    usedWords.insert(neighbor);
+            list<string> neighbours;
+            findNeighbours( current.top(), dict, neighbours );
+            for(auto neighbour : neighbours){
+                if(usedWords.count(neighbour) == 0){ // Weird ass lösning finns nog bättre
+                    usedWords.insert(neighbour);
                     stack<string> copycurrent = current;
-                    copycurrent.push(neighbor);
+                    copycurrent.push(neighbour);
                     wordQueue.push(copycurrent);
                 }
             }
         }
-    return 0;
     }
+    cout << "Have a nice day." << endl;
+    return 0;
+}
+
+void findNeighbours(const string& word, const unordered_set<string>& dictionary, list<string>& neighbours){
+    // Uses the global constant ALPHABET and a dictionary of valid words to find "neighbour-words" for the given word
+
+    for( unsigned int i = 0; i < word.length(); i++ ) {
+        string tempWord = word;
+        for( unsigned int j = 0; j < 26; j++ ) {
+            tempWord.replace(i, 1, string(1, ALPHABET[j]));
+            if( dictionary.count(tempWord) == 1) {
+                neighbours.push_back(tempWord);
+            }
+        }
+    }
+}
+
+void printWordChain( stack<string>& chain ) {
+    // Simply prints out a chain of words
+    while (!chain.empty()) {
+        cout << chain.top() << " ";
+        chain.pop();
+    }
+    cout << endl;
 }
