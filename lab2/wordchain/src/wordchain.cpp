@@ -5,10 +5,15 @@
 #include <string>
 #include <queue>
 #include <stack>
+#include <list>
 #include <unordered_set>
 using namespace std;
 
 const char ALPHABET[]  = "abcdefghijklmnopqrstuvwxyz";
+
+list<string> findNeighbor(string word){
+    //do shit
+}
 
 int main() {
     cout << "Welcome to TDDD86 Word Chain." << endl;
@@ -32,8 +37,29 @@ int main() {
         dict.insert(word);
     }
 
-    if ( dict.count("hello") == 1)
-        cout << "found" << endl;
-
+    queue<stack<string>> wordQueue;
+    unordered_set<string> usedWords; //Weird ass lösning finns nog bättre
+    stack<string> current;
+    current.push(start);
+    wordQueue.push(current);
+    while( !wordQueue.empty()){
+        current = wordQueue.front();
+        wordQueue.pop();
+        if(current.top() == end){
+            cout << "Chain found" << endl;
+            break;
+        }
+        else{
+            list<string> neighbor = findNeighbor(current.top());
+            for(string neighbor : neighbor){
+                if(usedWords.count(neighbor) == 1){ // Weird ass lösning finns nog bättre
+                    usedWords.insert(neighbor);
+                    stack<string> copycurrent = current;
+                    copycurrent.push(neighbor);
+                    wordQueue.push(copycurrent);
+                }
+            }
+        }
     return 0;
+    }
 }
