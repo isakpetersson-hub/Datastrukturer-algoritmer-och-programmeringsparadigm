@@ -8,6 +8,7 @@
 using namespace std;
 
 void readDictionary( unsigned int wordSize, unordered_set<string>& dict );
+void setupHangman( list<char>& guessedLetters, unordered_set<string>& dict, unsigned int& wordSize, unsigned int& guessCount, bool& showWordList, string& currentWord, bool& wordGuessed );
 
 const char ALPHABET[] = "abcdefghijklmnopqrstuvwxyz";
 
@@ -16,37 +17,25 @@ int main() {
 
     list<char> guessedLetters;
     unordered_set<string> dict;
-    unsigned int wordSize = 0;
-    while( dict.size() < 1 ) {
-        cout << "Enter wordsize: " << ends;
-        cin >> wordSize;
-        readDictionary( wordSize, dict );
-    }
 
-    unsigned int guessCount = 0;
-    while( guessCount < 1) {
-        cout << "Enter guessCount: " << ends;
-        cin >> guessCount;
-    }
+    unsigned int wordSize;
+    unsigned int guessCount;
 
     bool showWordList;
-    cout << "Do you want to see the wordcount: 1 to show, 0 to not show: " << ends;
-    cin >> showWordList;
 
     string currentWord;
-    for( unsigned int i = 0; i < wordSize; i++ ) {
-        currentWord.append("_");
-    }
+    bool wordGuessed;
     char guess;
-    while(true){
+
+    setupHangman( guessedLetters, dict, wordSize, guessCount, showWordList, currentWord, wordGuessed );
+
+    while(!wordGuessed){
         cout << "You have " << guessCount << " guesses left" << endl;
         cout << "You have guessed the letters ";
         for( auto letter : guessedLetters ) {
-            cout << letter + " ";
+            cout << letter;
         }
         cout << endl;
-
-        cout << currentWord << endl;
 
         if( showWordList)
             cout << "There are " << dict.size() << " words left" << endl;
@@ -87,18 +76,94 @@ int main() {
                 familyMap[wordFamily] = familySet;
             }
         }
-        //Hitta största set
+        unsigned int largetSetSize = 0;
+        string largetSetKey = "";
+        for ( auto familyPair: familyMap){
+            if (familyPair.second.size() > largetSetSize){
+                largetSetKey = familyPair.first;
+                largetSetSize = familyPair.second.size();
+            }
+        }
+        dict = familyMap.at(largetSetKey);
+        for(unsigned int i = 0; i < largetSetKey.size(); i++){
+            if (largetSetKey[i] == '1'){
+                currentWord.replace(i,1, {guess});
+            }
+        }
+        if (largetSetKey.find( '1') == string::npos)
+            cout << "You guessed wrong" << endl;
+        else
+            cout << "You guessed correct" << endl;
+
+        for ( auto letter: currentWord){
+            wordGuessed = true;
+            if (letter == '_') {
+                wordGuessed = false;
+                break;
+            }
+        }
+        cout << currentWord << endl;
+
+        if (wordGuessed) {
+            cout << "Congrats! You have defeated the Evil Hangman! Would you like to play again? (y/n)" << endl;
+            string answer;
+            cin >> answer;
+            if (answer == "y") {
+                setupHangman(guessedLetters, dict, wordSize, guessCount, showWordList, currentWord, wordGuessed);
+            } else {
+                cout << "Thanks for playing!" << endl;
+            }
+        }
+        if(guessCount == 0){
+            cout << "You failed to defeat the Evil Hangman! The correct word is " << *dict.begin() << endl;
+            cout << "Would you like to play again? (y/n)" << endl;
+            string answer;
+            cin >> answer;
+            if (answer == "y") {
+                setupHangman(guessedLetters, dict, wordSize, guessCount, showWordList, currentWord, wordGuessed);
+            } else {
+                cout << "Thanks for playing!" << endl;
+            }
+        }
     }
     return 0;
 }
 
 
+void setupHangman( list<char>& guessedLetters, unordered_set<string>& dict, unsigned int& wordSize, unsigned int& guessCount, bool& showWordList, string& currentWord, bool& wordGuessed ) {
+    guessedLetters.clear();
+
+    wordSize = 0;
+    dict.clear();
+    while( dict.size() < 1 ) {
+        cout << "Enter wordsize: " << ends;
+        cin >> wordSize;
+        readDictionary( wordSize, dict );
+    }
+
+    guessCount = 0;
+    while( guessCount < 1) {
+        cout << "Enter guessCount: " << ends;
+        cin >> guessCount;
+    }
+
+    cout << "Do you want to see the wordcount: 1 to show, 0 to not show: " << ends;
+    cin >> showWordList;
+
+    currentWord.clear();
+    for( unsigned int i = 0; i < wordSize; i++ ) {
+        currentWord.append("_");
+    }
+    cout << currentWord << endl;
+
+    wordGuessed = false;
+}
+
+
 void readDictionary( unsigned int wordSize, unordered_set<string>& dict ) {
     string word;
-    ifstream fileStream("di.txt");
-
+    ifstream fileStream("dictionary.txt");
     while( getline( fileStream, word ) ) {
-        cout << word << endl;
         if (word.length() == wordSize)
             dict.insert(word);
     }
