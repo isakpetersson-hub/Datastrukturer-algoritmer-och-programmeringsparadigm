@@ -1,3 +1,5 @@
+//isape817 rasda103
+
 #include <iostream>
 #include<iostream>
 #include<fstream>
@@ -29,6 +31,7 @@ int main() {
 
     setupHangman( guessedLetters, dict, wordSize, guessCount, showWordList, currentWord, wordGuessed );
 
+    // Main loop
     while(!wordGuessed){
         cout << "You have " << guessCount << " guesses left" << endl;
         cout << "You have guessed the letters ";
@@ -40,6 +43,7 @@ int main() {
         if( showWordList)
             cout << "There are " << dict.size() << " words left" << endl;
 
+        // Checks for validguess
         cout << "What is your next guess?" << endl;
         bool validguess = false;
         while (!validguess){
@@ -58,6 +62,10 @@ int main() {
 
             }
         }
+
+        // Gives each guess a binary representation and adds it to the Map
+        // - 0 The letter is not there
+        // - 1 The letter is there
         guessCount--;
         guessedLetters.push_back(guess);
         map<string,unordered_set<string>> familyMap;
@@ -76,6 +84,8 @@ int main() {
                 familyMap[wordFamily] = familySet;
             }
         }
+
+        // Finds the largest family
         unsigned int largetSetSize = 0;
         string largetSetKey = "";
         for ( auto familyPair: familyMap){
@@ -84,6 +94,8 @@ int main() {
                 largetSetSize = familyPair.second.size();
             }
         }
+
+        // Updates the dict of words left to the largest and puts the letter guessed into it's place if that is needed
         dict = familyMap.at(largetSetKey);
         for(unsigned int i = 0; i < largetSetKey.size(); i++){
             if (largetSetKey[i] == '1'){
@@ -95,6 +107,7 @@ int main() {
         else
             cout << "You guessed correct" << endl;
 
+        // Checks if all the letter have been guessed
         for ( auto letter: currentWord){
             wordGuessed = true;
             if (letter == '_') {
@@ -104,6 +117,7 @@ int main() {
         }
         cout << currentWord << endl;
 
+        // If words guessed or no guesses lets say the word it chose and ask if they want to play again
         if (wordGuessed) {
             cout << "Congrats! You have defeated the Evil Hangman! Would you like to play again? (y/n)" << endl;
             string answer;
@@ -131,6 +145,9 @@ int main() {
 
 
 void setupHangman( list<char>& guessedLetters, unordered_set<string>& dict, unsigned int& wordSize, unsigned int& guessCount, bool& showWordList, string& currentWord, bool& wordGuessed ) {
+    // Does all the setup for the game that is not part of the main loop
+    // It runs at the start and when a new game is started
+
     guessedLetters.clear();
 
     wordSize = 0;
@@ -161,6 +178,8 @@ void setupHangman( list<char>& guessedLetters, unordered_set<string>& dict, unsi
 
 
 void readDictionary( unsigned int wordSize, unordered_set<string>& dict ) {
+    // Reads the dictionary
+
     string word;
     ifstream fileStream("dictionary.txt");
     while( getline( fileStream, word ) ) {
