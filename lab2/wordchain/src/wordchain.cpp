@@ -37,8 +37,8 @@ int main() {
         dict.insert(word);
     }
 
-    queue<stack<string>> wordQueue;
-    unordered_set<string> usedWords; //Weird ass lösning finns nog bättre
+    queue<stack<string>> wordQueue; // The queue of stacks that is used for the breadth-first-search
+    unordered_set<string> usedWords; // An unordered set of words that have already been used in a wordchain
 
     stack<string> current;
     current.push(start);
@@ -48,6 +48,7 @@ int main() {
         current = wordQueue.front();
         wordQueue.pop();
         if(current.top() == end){
+            // If we have gotten to the second word, i.e. completed the chain, print the chain and break
             printWordChain( current );
             break;
         }
@@ -55,7 +56,7 @@ int main() {
             list<string> neighbours;
             findNeighbours( current.top(), dict, neighbours );
             for(auto neighbour : neighbours){
-                if(usedWords.count(neighbour) == 0){ // Weird ass lösning finns nog bättre
+                if(usedWords.count(neighbour) == 0){ // If the word (neighbour) hasn't been used in a chain
                     usedWords.insert(neighbour);
                     stack<string> copycurrent = current;
                     copycurrent.push(neighbour);
