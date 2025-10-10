@@ -11,42 +11,143 @@
 
 Tour::Tour()
 {
-    // TODO: write this member
+    first = nullptr;
 }
 
 Tour::~Tour()
 {
-    // TODO: write this member
+    if( first == nullptr ) {
+        return;
+    } else if (first->next == first) {
+        delete first;
+        return;
+    }
+
+    Node* currentNode = first->next;
+    Node* previousNode;
+
+    do {
+        previousNode = currentNode;
+        if( currentNode != first ) {
+            currentNode = currentNode->next;
+        }
+        delete previousNode;
+    } while( currentNode != first );
 }
 
 void Tour::show()
 {
-    // TODO: write this member
+    if( first == nullptr ) {
+        return;
+    }
+
+    Node* currentNode = first;
+    do {
+        std::cout << currentNode->point.toString() << endl;
+        currentNode = currentNode->next;
+    }
+    while( currentNode != first );
 }
 
 void Tour::draw(QGraphicsScene *scene)
 {
-    // TODO: write this member
+    if ( first == nullptr ) {
+        return;
+    }
+
+    scene->clear();
+    Node* currentNode = first;
+    do {
+        currentNode->point.drawTo( currentNode->next->point, scene );
+        currentNode = currentNode->next;
+    }
+    while( currentNode != first );
 }
 
 int Tour::size()
 {
-    // TODO: write this member
-    return 0;
+    int size = 0;
+
+    if ( first == nullptr ) {
+        return size;
+    }
+
+    Node* currentNode = first;
+    do {
+        size++;
+        currentNode = currentNode->next;
+    }
+    while( currentNode != first );
+    return size;
 }
 
 double Tour::distance()
 {
-    // TODO: write this member
-    return 0;
+    double distance = 0;
+
+    if ( first == nullptr ) {
+        return distance;
+    }
+
+    Node* currentNode = first;
+    do {
+        distance += currentNode->point.distanceTo( currentNode->next->point );
+        currentNode = currentNode->next;
+    }
+    while( currentNode != first );
+    return distance;
 }
 
 void Tour::insertNearest(Point p)
 {
-    // TODO: write this member
+    if ( first == nullptr ) {
+        first = new Node( p );
+        first->next = first;
+        return;
+    }
+
+    Node* currentNode = first;
+    Node* nearest = first;
+    double nearestDistance = first->point.distanceTo(p);
+
+    do {
+        double currentDistance = currentNode->point.distanceTo(p);
+        if ( currentDistance <= nearestDistance ) {
+            nearest = currentNode;
+            nearestDistance = currentDistance;
+        }
+
+        currentNode = currentNode->next;
+    } while( currentNode != first);
+
+    Node* newNode = new Node(p, nearest->next);
+    nearest->next = newNode;
+
 }
 
 void Tour::insertSmallest(Point p)
 {
-    // TODO: write this member
+    if ( first == nullptr ) {
+        first = new Node( p );
+        first->next = first;
+        return;
+    }
+
+    Node* currentNode = first;
+    Node* nearest = first;
+    double smallestDifference = distance();
+
+    do {
+        double currentDistance = currentNode->point.distanceTo(currentNode->next->point);
+        double newDistance = currentNode->point.distanceTo(p) + p.distanceTo(currentNode->next->point);
+        if ( newDistance - currentDistance <= smallestDifference ) {
+            nearest = currentNode;
+            smallestDifference = newDistance - currentDistance;
+        }
+
+        currentNode = currentNode->next;
+    } while( currentNode != first);
+
+    Node* newNode = new Node(p, nearest->next);
+    nearest->next = newNode;
 }

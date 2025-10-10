@@ -1,9 +1,3 @@
-// This is the .h file you will edit and turn in.
-// We have provided a skeleton for you,
-// but you must finish it as described in the spec.
-// Also remove these comments here and add your own, as well as on the members.
-// TODO: remove this comment header
-
 #ifndef TOUR_H
 #define TOUR_H
 
@@ -14,16 +8,47 @@ class Tour {
 public:
 
     Tour();
+    /*
+     * Creates a tour with an empty first node
+     */
+
     ~Tour();
+    /*
+     * Frees the memory from the entire tour, which includes the linked list of nodes
+     */
+
     void show();
+    /*
+     * Prints a basic representation of the tour to stdout
+     */
+
     void draw(QGraphicsScene* scene);
+    /*
+     * Uses QGraphics to create a graphical representation of the tour using the function DrawTo( Point p ) present in the Point class
+     */
+
     int size();
+    /*
+     * Walks through the nodes in the tour and returns the total amount of nodes
+     */
+
     double distance();
+    /*
+     * Walks through the nodes in the tour and returns the total distance
+     */
+
     void insertNearest(Point p);
+    /*
+     * Searches through the tour to find the node which is nearest to the point p, and then inserts p after that node
+     */
+
     void insertSmallest(Point p);
+    /*
+     *Searches through the tour to find the place where if the point p is inserted, it results in the smallest possible increase in total distance
+     */
 
 private:
-
+    Node* first;
 };
 
 #endif // TOUR_H

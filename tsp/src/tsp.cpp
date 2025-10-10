@@ -42,12 +42,12 @@ int main(int argc, char *argv[]) {
     double y;
     while (input >> x >> y) {
         Point p(x, y);
-        tour.insertNearest(p);
-        //uncomment the 4 lines below to animate
-        //tour.draw(scene);
-        //std::chrono::milliseconds dura(50);
-        //std::this_thread::sleep_for(dura);
-        //a.processEvents();
+        tour.insertSmallest(p);
+
+        tour.draw(scene);
+        std::chrono::milliseconds dura(50);
+        std::this_thread::sleep_for(dura);
+        a.processEvents();
     }
     input.close();
 
@@ -57,7 +57,8 @@ int main(int argc, char *argv[]) {
     cout << "Number of points: " << tour.size() << endl;
     tour.show();
 
-    // draw tour
     tour.draw(scene);
+
+    tour.~Tour();
     return a.exec(); // start Qt event loop
 }
