@@ -16,23 +16,17 @@ Tour::Tour()
 
 Tour::~Tour()
 {
-    if( first == nullptr ) {
-        return;
-    } else if (first->next == first) {
-        delete first;
+    if ( first == nullptr ) {
         return;
     }
 
-    Node* currentNode = first->next;
-    Node* previousNode;
+    Node* current = first;
 
     do {
-        previousNode = currentNode;
-        if( currentNode != first ) {
-            currentNode = currentNode->next;
-        }
-        delete previousNode;
-    } while( currentNode != first );
+        Node* next = current->next;
+        delete current;
+        current = next;
+    } while (current != first);
 }
 
 void Tour::show()
