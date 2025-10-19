@@ -20,13 +20,15 @@ Tour::~Tour()
         return;
     }
 
-    Node* current = first;
+    Node* current = first->next;
 
-    do {
+      while (current != first){
         Node* next = current->next;
         delete current;
         current = next;
-    } while (current != first);
+    }
+    delete first;
+    first = nullptr;
 }
 
 void Tour::show()
