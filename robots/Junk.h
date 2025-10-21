@@ -18,13 +18,13 @@ public:
     */
     void draw(QGraphicsScene* scene) const;
 
-    bool isAlive();
+    bool isAlive() const;
 
     void doCrash();
 
-    bool isToBeJunked();
+    bool isToBeJunked() const;
 
-    void moveTowards();
+    void moveTowards(const Point& p);
 };
 
 #endif // JUNK_H

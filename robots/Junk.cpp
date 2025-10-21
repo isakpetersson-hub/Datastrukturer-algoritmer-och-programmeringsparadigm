@@ -15,7 +15,7 @@ void Junk::draw(QGraphicsScene *scene) const {
                              JUNK_RADIUS, JUNK_RADIUS), QPen(), QBrush(JUNK_COLOR));
 }
 
-bool Junk::isAlive() {
+bool Junk::isAlive() const {
     return false;
 }
 
@@ -23,10 +23,10 @@ void Junk::doCrash() {
     //boom elle nåt
 }
 
-bool Junk::isToBeJunked() {
+bool Junk::isToBeJunked() const {
     return false;
 }
 
-void Junk::moveTowards() {
+void Junk::moveTowards(const Point& p) {
 
 }

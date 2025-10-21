@@ -42,7 +42,7 @@ public:
     /*
     * Take one step closer to point
     */
-    void moveTowards(const Point&);
+    virtual void moveTowards(const Point&);
 
 
     /*
@@ -55,15 +55,14 @@ public:
     */
     double distanceTo(const Unit& u) const;
 
-    virtual bool isAlive();
+    virtual bool isAlive() const;
 
     virtual void doCrash();
 
-    virtual bool isToBeJunked();
+    virtual bool isToBeJunked() const;
 
     virtual void draw( QGraphicsScene* scene ) const;
 
-    virtual void moveTowards();
 private:
     int x;  // x position of this unit
     int y;  // y position of this unit

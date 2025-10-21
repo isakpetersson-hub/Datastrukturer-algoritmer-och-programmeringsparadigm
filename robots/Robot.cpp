@@ -6,6 +6,7 @@
 #include "Robot.h"
 #include "constants.h"
 
+
 bool Robot::isAlive() const{
     return !toBeJunked;
 }

@@ -48,19 +48,18 @@ double Unit::distanceTo(const Unit& u) const {
     return sqrt(dx * dx + dy * dy);
 }
 
-bool Unit::isAlive() {
+bool Unit::isAlive() const {
     return false;
 }
 
 void Unit::doCrash() {}
 
-bool Unit::isToBeJunked() {
+bool Unit::isToBeJunked() const {
     return false;
 }
 
 void Unit::draw( QGraphicsScene *scene ) const {}
 
-void Unit::moveTowards() {}
 /*
  * Put this unit inside playing field if outside
  */
