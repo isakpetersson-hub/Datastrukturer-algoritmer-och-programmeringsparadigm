@@ -13,12 +13,17 @@
 GameState::GameState(int numberOfRobots) {
    for (int i = 0; i < numberOfRobots; i++) {
         Robot* robot = new Robot();
-        while(!isEmpty(robot)){
+        while(!isEmpty(robot)) {
             *robot = Robot();
         }
         units.push_back(robot);
     }
     teleportHero();
+}
+
+GameState::GameState( GameState& other ) {
+    units = other.units;
+    hero = other.hero;
 }
 
 void GameState::draw(QGraphicsScene *scene) const {
@@ -47,7 +52,9 @@ void GameState::updateCrashes() {
         for ( unsigned o=i+1; o < units.size(); o++) {
             if (units[i]->at(*units[o])) {
                 units[i]->doCrash();
-                units[o]->doCrash();
+                Unit* unit = units[o];
+                units.erase(units.begin() + o);
+                delete unit;
             }
         }
     }
@@ -63,9 +70,13 @@ int GameState::countToBeJunked()const{
 }
 
 void GameState::junkTheCrashed(){
-    for ( Unit* unit : units ) {
-        if (unit->isToBeJunked()) {
-            *unit = Junk(unit->asPoint());
+    for ( unsigned int i = 0; i < units.size(); i++ ) {
+        if (units[i]->isToBeJunked()) {
+            Junk* junk = new Junk(units[i]->asPoint());
+            Unit* unit = units[i];
+            units.erase(units.begin() + i);
+            delete unit;
+            units.push_back(junk);
         }
     }
 }

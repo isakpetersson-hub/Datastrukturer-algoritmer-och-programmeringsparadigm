@@ -25,6 +25,8 @@ public:
      */
     GameState(int numberOfRobots);
 
+    GameState( GameState& other );
+
     ~GameState() = default;
 
 
