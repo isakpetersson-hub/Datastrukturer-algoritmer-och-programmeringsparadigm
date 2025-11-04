@@ -48,7 +48,7 @@ public:
      */
 
 private:
-    Node* first;
+    Node* first; // Pointer to the first node in the tour
 };
 
 #endif // TOUR_H
