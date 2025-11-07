@@ -13,18 +13,20 @@ class Junk : public Unit {
 public:
     Junk(const Point& p): Unit(p){}
 
+    Unit* clone() const override;
+
     /*
     * Draws this junk onto the given QGraphicsScene.
     */
-    void draw(QGraphicsScene* scene) const;
+    void draw(QGraphicsScene* scene) const override;
 
-    bool isAlive() const;
+    bool isAlive() const override;
 
-    void doCrash();
+    void doCrash() override;
 
-    bool isToBeJunked() const;
+    bool isToBeJunked() const override;
 
-    void moveTowards(const Point& p);
+    void moveTowards(const Point& p) override;
 };
 
 #endif // JUNK_H

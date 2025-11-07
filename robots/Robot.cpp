@@ -7,6 +7,10 @@
 #include "constants.h"
 
 
+Unit* Robot::clone() const {
+    return new Robot(*this);
+}
+
 bool Robot::isAlive() const{
     return !toBeJunked;
 }

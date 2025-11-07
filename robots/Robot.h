@@ -14,26 +14,28 @@ class Robot : public Unit {
 
 public:
 
+    ~Robot() override = default;
+    Unit* clone() const override;
     /*
      * did not crash yet
      */
-    bool isAlive() const;
+    bool isAlive() const override;
 
     /*
      * Crashes and remembers it
      */
-    void doCrash();
+    void doCrash() override;
 
     /*
      * Return whether the robot crashed
      */
-    bool isToBeJunked() const;
+    bool isToBeJunked() const override;
 
 
     /*
     * Draws this robot onto the given QGraphicsScene.
     */
-    void draw(QGraphicsScene* scene) const;
+    void draw(QGraphicsScene* scene) const override;
 
 
 };

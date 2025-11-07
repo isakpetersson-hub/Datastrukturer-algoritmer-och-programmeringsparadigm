@@ -26,7 +26,8 @@ public:
     */
     Unit(const Point& p);
 
-    virtual ~Unit(){}
+    virtual ~Unit() = default;
+    virtual Unit* clone() const = 0;
 
     /*
     * Return Point representation of Unit

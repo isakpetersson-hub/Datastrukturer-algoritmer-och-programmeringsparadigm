@@ -21,9 +21,36 @@ GameState::GameState(int numberOfRobots) {
     teleportHero();
 }
 
-GameState::GameState( GameState& other ) {
-    units = other.units;
+GameState::GameState( const GameState& other ) {
+    units.reserve(other.units.size());
+    for (Unit* unit : other.units) {
+        units.push_back(unit->clone());
+    }
+}
+
+GameState& GameState::operator=(const GameState& other) {
+    if (this == &other)
+        return *this;
+
+    for (Unit* unit : units) {
+        delete unit;
+    }
+    units.clear();
+    units.reserve(other.units.size());
+
+    for (Unit* unit : other.units) {
+        units.push_back(unit->clone());
+    }
+
     hero = other.hero;
+
+    return *this;
+}
+
+GameState::~GameState() {
+    for (Unit* unit : units) {
+        delete unit;
+    }
 }
 
 void GameState::draw(QGraphicsScene *scene) const {
@@ -55,6 +82,7 @@ void GameState::updateCrashes() {
                 Unit* unit = units[o];
                 units.erase(units.begin() + o);
                 delete unit;
+                o--;
             }
         }
     }
@@ -91,7 +119,7 @@ bool GameState::someRobotsAlive() const {
 
 bool GameState::heroDead() const {
     for ( const Unit* unit : units ) {
-        if ( hero.at( unit->asPoint() ) )
+        if ( hero.at( *unit ) )
             return true;
     }
 

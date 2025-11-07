@@ -25,9 +25,11 @@ public:
      */
     GameState(int numberOfRobots);
 
-    GameState( GameState& other );
+    GameState( const GameState& other );
 
-    ~GameState() = default;
+    GameState& operator=(const GameState& other);
+
+    ~GameState();
 
 
     /*

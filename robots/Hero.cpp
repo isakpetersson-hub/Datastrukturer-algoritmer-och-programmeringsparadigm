@@ -7,6 +7,9 @@
 #include "constants.h"
 
 
+Unit* Hero::clone() const {
+    return new Hero(*this);
+}
 
 void Hero::draw(QGraphicsScene *scene) const {
     Point corner = asPoint();
