@@ -20,3 +20,22 @@ static string CUBES[NUM_CUBES] = {        // the letters on all 6 sides of every
 };
 
 // TODO: implement the members you declared in Boggle.h
+
+void Boggle::setUpGame() {
+    playerScore = computerScore = playerWordAmount = computerWordAmount = 0;
+
+    std::cout << "Do you want to generate a random board? " << std::ends;
+    char response;
+    cin >> response;
+    if (response == 'y')
+        shuffleBoard();
+    if (response == 'n')
+        inputBoard();
+}
+
+void Boggle::startGame() {	// Assumes the board already exists
+    std::cout << "It's your turn!" << std::endl;
+    printBoard();
+
+    printf("\nYour words (%d): ", playerWordAmount);
+}

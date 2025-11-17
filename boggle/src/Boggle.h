@@ -9,6 +9,7 @@
 
 #include <iostream>
 #include <string>
+#include <vector>
 // TODO: include any other header files you need
 
 using namespace std;
@@ -20,10 +21,17 @@ public:
     const int BOARD_SIZE = 4;
 
     // TODO: decide the public member functions and declare them
+    void setUpGame();
+    void startGame();
 
 private:
     // TODO: decide the private member variables/functions and declare them
+    int playerScore, computerScore, playerWordAmount, computerWordAmount;
+    vector<string> playerWords, computerWords;
 
+    void printBoard();
+    void shuffleBoard();
+    void inputBoard();
 };
 
 #endif
