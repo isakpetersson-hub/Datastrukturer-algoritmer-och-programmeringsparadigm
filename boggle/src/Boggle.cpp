@@ -23,14 +23,25 @@ static string CUBES[NUM_CUBES] = {        // the letters on all 6 sides of every
 
 void Boggle::setUpGame() {
     playerScore = computerScore = playerWordAmount = computerWordAmount = 0;
+    playerWords.clear();
+    computerWords.clear();
 
     std::cout << "Do you want to generate a random board? " << std::ends;
-    char response;
-    cin >> response;
-    if (response == 'y')
-        shuffleBoard();
-    if (response == 'n')
-        inputBoard();
+    while ( true ) {
+        string answer;
+        getline(cin, answer);
+        answer = trim(toLowerCase(answer));
+
+        if (startsWith(answer, 'y')) {
+            shuffleBoard();
+            break;
+        }
+        if (startsWith(answer, 'n')) {
+            inputBoard();
+            break;
+        }
+        std::cout << "'" << answer << "' is not a valid response!" << endl;
+    }
 }
 
 void Boggle::startGame() {	// Assumes the board already exists
@@ -38,4 +49,16 @@ void Boggle::startGame() {	// Assumes the board already exists
     printBoard();
 
     printf("\nYour words (%d): ", playerWordAmount);
+}
+
+void Boggle::printBoard() {
+
+}
+
+void Boggle::shuffleBoard() {
+
+}
+
+void Boggle::inputBoard() {
+
 }

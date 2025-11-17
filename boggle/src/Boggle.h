@@ -10,6 +10,7 @@
 #include <iostream>
 #include <string>
 #include <vector>
+#include <grid.h>
 // TODO: include any other header files you need
 
 using namespace std;
@@ -28,6 +29,7 @@ private:
     // TODO: decide the private member variables/functions and declare them
     int playerScore, computerScore, playerWordAmount, computerWordAmount;
     vector<string> playerWords, computerWords;
+    Grid<char> board;
 
     void printBoard();
     void shuffleBoard();
