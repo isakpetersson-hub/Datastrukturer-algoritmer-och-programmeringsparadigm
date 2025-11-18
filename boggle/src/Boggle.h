@@ -11,6 +11,7 @@
 #include <string>
 #include <vector>
 #include <grid.h>
+#include "lexicon.h"
 // TODO: include any other header files you need
 
 using namespace std;
@@ -30,10 +31,15 @@ private:
     int playerScore, computerScore, playerWordAmount, computerWordAmount;
     vector<string> playerWords, computerWords;
     Grid<char> board;
+    Lexicon lexicon;
 
     void printBoard();
     void shuffleBoard();
     void inputBoard();
+    bool isAlphabetical(const string& input);
+    bool isValidWord(const string& word);
+    bool hasBeenGuessed(const string& word, const vector<string>& guessedWords);
+    bool containsWord(const string& word, const int size, int index, int r, int c);
 };
 
 #endif
