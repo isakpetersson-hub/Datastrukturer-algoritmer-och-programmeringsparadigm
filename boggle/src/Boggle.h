@@ -40,6 +40,7 @@ private:
     bool isValidWord(const string& word);
     bool hasBeenGuessed(const string& word, const vector<string>& guessedWords);
     bool containsWord(const string& word, const int size, int index, int r, int c);
+    string wordsToString(const vector<string>& words);
 };
 
 #endif

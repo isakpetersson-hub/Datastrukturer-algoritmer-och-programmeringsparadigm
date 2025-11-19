@@ -50,13 +50,15 @@ void Boggle::startGame() {	// Assumes the board already exists
     cout << "It's your turn!" << endl;
     printBoard();
 
-    string wordList = "";
     while( true ) {
-        printf("\nYour words (%d): %s", playerWordAmount, wordList.c_str());
+        printf("\nYour words (%zu): %s", playerWords.size(), wordsToString(playerWords).c_str());
         printf("\nYour score: %d", playerScore);
         printf("\nType a word (or press Enter\n\tto end your turn): ");
         string input;
         cin >> input;
+        if (input == "") {
+            break;
+        }
         input = toUpperCase(input);
         if (!isValidWord(input)) {
             printf("\nNot a valid word!");
@@ -99,6 +101,7 @@ bool Boggle::containsWord(const string& word, const int size, int index, int r=0
                 }
             }
         }
+        cout << "Word: " << word << ", Index: " << index << endl;
         return false;
     } else {
         for (int i = -1; i <= 1; i++) {
@@ -111,8 +114,21 @@ bool Boggle::containsWord(const string& word, const int size, int index, int r=0
                 }
             }
         }
+        cout << "Word: " << word << ", Index: " << index << endl;
         return false;
     }
+}
+
+string Boggle::wordsToString(const vector<string>& words) {
+    string output = "{";
+    for (auto& word : words) {
+        output.append("\"" + word + "\"");
+        if (word != words.back()) {
+            output.append(", ");
+        }
+    }
+    output.append("}");
+    return output;
 }
 
 bool Boggle::hasBeenGuessed(const string& word, const vector<string>& guessedWords) {
