@@ -65,6 +65,7 @@ void Boggle::startGame() {	// Assumes the board already exists
             continue;
         } else {
             playerWords.push_back(input);
+            playerScore += input.size() - 3;
         }
     }
     cout << "AAAAA" << endl;
