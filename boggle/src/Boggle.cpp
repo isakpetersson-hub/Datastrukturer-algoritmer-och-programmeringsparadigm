@@ -54,9 +54,9 @@ void Boggle::startGame() {	// Assumes the board already exists
         printf("\nYour words (%zu): %s", playerWords.size(), wordsToString(playerWords).c_str());
         printf("\nYour score: %d", playerScore);
         printf("\nType a word (or press Enter\n\tto end your turn): ");
-        string input;
-        cin >> input;
-        if (input == "") {
+        string input = "";
+        getline(cin, input);
+        if (input.size() == 0) {
             break;
         }
         input = toUpperCase(input);
@@ -67,6 +67,7 @@ void Boggle::startGame() {	// Assumes the board already exists
             playerWords.push_back(input);
         }
     }
+    cout << "AAAAA" << endl;
 }
 
 bool Boggle::isValidWord(const string& word) {
