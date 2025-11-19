@@ -71,6 +71,14 @@ void Boggle::startGame() {	// Assumes the board already exists
     cout << "AAAAA" << endl;
 }
 
+void Boggle::findAllWords(vector<string>& target) {
+    for (int i = 0; i < BOARD_SIZE; i++) {
+        for (int j = 0; j < BOARD_SIZE; j++) {
+
+        }
+    }
+}
+
 bool Boggle::isValidWord(const string& word) {
     if (word.size() < 4) {
         cout << "Word is too short" << endl;
@@ -95,7 +103,7 @@ bool Boggle::containsWord(const string& word, const int size, int index, int r=0
     if (index == 0) {
         for (int i = 0; i < BOARD_SIZE; i++) {
             for (int j = 0; j < BOARD_SIZE; j++) {
-                if (board.get(i, j) == soughtChar) {
+                if (get<0>(board.get(i, j)) == soughtChar) {
                     cout << "First char found" << endl;
                     if (containsWord( word, size, index + 1, i, j )) {
                         return true;
@@ -108,7 +116,7 @@ bool Boggle::containsWord(const string& word, const int size, int index, int r=0
     } else {
         for (int i = -1; i <= 1; i++) {
             for (int j = -1; j <= 1; j++) {
-                if (board.inBounds(r+i, c+j) && (board.get(r+i, c+j) == soughtChar) && !((i == 0) && (j == 0))) {
+                if (board.inBounds(r+i, c+j) && (get<0>(board.get(r+i, c+j)) == soughtChar) && !((i == 0) && (j == 0))) {
                     printf("Char at index %d found", index);
                     if (containsWord( word, size, index + 1, r + i, c + j )) {
                         return true;
@@ -134,7 +142,7 @@ string Boggle::wordsToString(const vector<string>& words) {
 }
 
 bool Boggle::hasBeenGuessed(const string& word, const vector<string>& guessedWords) {
-    for (auto guessed : guessedWords) {
+    for (auto& guessed : guessedWords) {
         if (word == guessed) {
             return true;
         }
@@ -146,7 +154,7 @@ void Boggle::printBoard() {
     string output;
     for (int i = 0; i < BOARD_SIZE; i++) {
         for (int j = 0; j < BOARD_SIZE; j++) {
-            output.append( string { board.get(i, j) } );
+            output.append( string { get<0>(board.get(i, j)) } );
         }
         output.append("\n");
     }
@@ -156,7 +164,7 @@ void Boggle::printBoard() {
 void Boggle::shuffleBoard() {
     for (int i = 0; i < BOARD_SIZE; i++) {
         for (int j = 0; j < BOARD_SIZE; j++) {
-            board.set(i, j, CUBES[i + j][randomInteger(0, CUBE_SIDES - 1)]);
+            board.set(i, j, make_tuple(CUBES[i + j][randomInteger(0, CUBE_SIDES - 1)], false));
         }
     }
 
@@ -168,7 +176,7 @@ void Boggle::inputBoard() {
 
     string input;
     while( true ) {
-        cin >> input;
+        getline(cin, input);
         if (input.size() != 16) {
             printf("Input must be 16 letters (Input was %d letters): ", (int) input.size());
         } else if (!isAlphabetical(input)) {
@@ -182,7 +190,7 @@ void Boggle::inputBoard() {
 
     for (int i = 0; i < BOARD_SIZE; i++) {
         for (int j = 0; j < BOARD_SIZE; j++) {
-            board.set(i, j, input[4*i + j]);
+            board.set(i, j, make_tuple(input[4*i + j], false));
         }
     }
 }

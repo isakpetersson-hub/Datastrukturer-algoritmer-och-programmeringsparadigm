@@ -12,7 +12,6 @@
 #include <vector>
 #include <grid.h>
 #include "lexicon.h"
-// TODO: include any other header files you need
 
 using namespace std;
 
@@ -22,15 +21,13 @@ public:
     const int MIN_WORD_LENGTH = 4;
     const int BOARD_SIZE = 4;
 
-    // TODO: decide the public member functions and declare them
     void setUpGame();
     void startGame();
 
 private:
-    // TODO: decide the private member variables/functions and declare them
     int playerScore, computerScore, playerWordAmount, computerWordAmount;
     vector<string> playerWords, computerWords;
-    Grid<char> board;
+    Grid<tuple<char, bool>> board;
     Lexicon lexicon;
 
     void printBoard();
@@ -38,6 +35,7 @@ private:
     void inputBoard();
     bool isAlphabetical(const string& input);
     bool isValidWord(const string& word);
+    void findAllWords(vector<string>& target);
     bool hasBeenGuessed(const string& word, const vector<string>& guessedWords);
     bool containsWord(const string& word, const int size, int index, int r, int c);
     string wordsToString(const vector<string>& words);
