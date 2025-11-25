@@ -48,10 +48,9 @@ void Boggle::setUpGame() {
 
 void Boggle::startGame() {	// Assumes the board already exists
     cout << "It's your turn!" << endl;
-    printBoard();
 
     while( true ) {
-        printf("\nYour words (%zu): %s", playerWords.size(), wordsToString(playerWords).c_str());
+        printBoard();
         printf("\nYour score: %d", playerScore);
         printf("\nType a word (or press Enter\n\tto end your turn): ");
         string input = "";
@@ -68,13 +67,40 @@ void Boggle::startGame() {	// Assumes the board already exists
             playerScore += input.size() - 3;
         }
     }
-    cout << "AAAAA" << endl;
+    findAllWords(computerWords);
+    printf("\nMy words (%zu): %s", computerWords.size(), wordsToString(playerWords).c_str());
+}
+
+vector<tuple<int,int>> Boggle::findNeighbours(int r, int c){
+    vector<tuple<int,int>> Neighbours;
+    for (int i = -1 ; i <= 1; i++){
+        for ( int j = -1 ; j <= 1; j++){
+            if (board.inBounds(r+i, c+j) && !((i == 0) && (j == 0)) && get<1>(board.get(r+i,c+j)) == false) {
+                Neighbours.push_back({r+i, c+j});
+            }
+        }
+    }
+    return Neighbours;
+}
+
+void Boggle::checkNeighbours(vector<string>& target, string current, int r, int c){
+    //if ( lexicon.contains(current) && target.)
+    char letter = get<0>(board.get(r,c));
+    board.set(r,c,{letter,true});
+    for ( auto n : findNeighbours(r,c)){
+        if ( lexicon.containsPrefix(current + get<0>(board.get(get<0>(n),get<1>(n)))) == false){
+           continue;
+         }
+         current.append(string{get<0>(board.get(get<0>(n),get<1>(n)))});
+         checkNeighbours(target, current, r, c);
+    }
+    board.set(r,c,{letter,false});
 }
 
 void Boggle::findAllWords(vector<string>& target) {
     for (int i = 0; i < BOARD_SIZE; i++) {
         for (int j = 0; j < BOARD_SIZE; j++) {
-
+            checkNeighbours(target, string{get<0>(board.get(i,j))}, i, j);
         }
     }
 }
@@ -95,7 +121,6 @@ bool Boggle::isValidWord(const string& word) {
 
 bool Boggle::containsWord(const string& word, const int size, int index, int r=0, int c=0) {
     if (index == size) {
-        cout << "Walla index == size" << endl;
         return true;
     }
 
@@ -104,7 +129,6 @@ bool Boggle::containsWord(const string& word, const int size, int index, int r=0
         for (int i = 0; i < BOARD_SIZE; i++) {
             for (int j = 0; j < BOARD_SIZE; j++) {
                 if (get<0>(board.get(i, j)) == soughtChar) {
-                    cout << "First char found" << endl;
                     if (containsWord( word, size, index + 1, i, j )) {
                         return true;
                     }
@@ -117,7 +141,6 @@ bool Boggle::containsWord(const string& word, const int size, int index, int r=0
         for (int i = -1; i <= 1; i++) {
             for (int j = -1; j <= 1; j++) {
                 if (board.inBounds(r+i, c+j) && (get<0>(board.get(r+i, c+j)) == soughtChar) && !((i == 0) && (j == 0))) {
-                    printf("Char at index %d found", index);
                     if (containsWord( word, size, index + 1, r + i, c + j )) {
                         return true;
                     }
