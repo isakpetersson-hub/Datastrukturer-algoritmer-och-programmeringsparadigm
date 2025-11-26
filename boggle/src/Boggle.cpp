@@ -75,7 +75,7 @@ vector<tuple<int,int>> Boggle::findNeighbours(int r, int c){
     vector<tuple<int,int>> Neighbours;
     for (int i = -1 ; i <= 1; i++){
         for ( int j = -1 ; j <= 1; j++){
-            if (board.inBounds(r+i, c+j) && !((i == 0) && (j == 0)) && get<1>(board.get(r+i,c+j)) == false) {
+            if (board.inBounds(r+i, c+j) && !((i == 0) && (j == 0)) && !get<1>(board.get(r+i,c+j))) {
                 Neighbours.push_back({r+i, c+j});
             }
         }
@@ -84,15 +84,21 @@ vector<tuple<int,int>> Boggle::findNeighbours(int r, int c){
 }
 
 void Boggle::checkNeighbours(vector<string>& target, string current, int r, int c){
-    //if ( lexicon.contains(current) && target.)
+    printf("\nChecking neighbours of r: %d, c: %d", r, c);
     char letter = get<0>(board.get(r,c));
+    current += letter;
+    printf("\nCurrent: %s", current.c_str());
     board.set(r,c,{letter,true});
+    if (!hasBeenGuessed(current, computerWords) && lexicon.contains(current) && (current.size() >= 4)) {
+        computerWords.push_back(current);
+    }
     for ( auto n : findNeighbours(r,c)){
-        if ( lexicon.containsPrefix(current + get<0>(board.get(get<0>(n),get<1>(n)))) == false){
+        printf("\nInner Loop");
+        if ( !lexicon.containsPrefix(current + get<0>(board.get(get<0>(n),get<1>(n))))){
+            printf("\nConinuing... Word is: %s", string {current + get<0>(board.get(get<0>(n), get<1>(n)))}.c_str());
            continue;
-         }
-         current.append(string{get<0>(board.get(get<0>(n),get<1>(n)))});
-         checkNeighbours(target, current, r, c);
+        }
+        checkNeighbours(target, current, get<0>(n), get<1>(n));
     }
     board.set(r,c,{letter,false});
 }
@@ -100,7 +106,7 @@ void Boggle::checkNeighbours(vector<string>& target, string current, int r, int 
 void Boggle::findAllWords(vector<string>& target) {
     for (int i = 0; i < BOARD_SIZE; i++) {
         for (int j = 0; j < BOARD_SIZE; j++) {
-            checkNeighbours(target, string{get<0>(board.get(i,j))}, i, j);
+            checkNeighbours(target, "", i, j);
         }
     }
 }
