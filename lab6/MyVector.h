@@ -43,20 +43,22 @@ public:
 
 private:
 
-    // private members?
+    T* storage;
+    unsigned capacity, numberOfElements;
 
 };
 
 template<typename T>
 MyVector<T>::MyVector(){
-    // TODO: replace the code below with your code for this member
-    MYEXCEPTION("unimplemented method");
+    storage = new T[1];
+    capacity = 1;
+    numberOfElements = 0;
 }
 
 template<typename T>
 MyVector<T>::~MyVector(){
     // TODO: replace the code below with your code for this member
-    MYEXCEPTION("unimplemented method");
+    delete[] storage;
 }
 
 template<typename T>
@@ -73,56 +75,58 @@ MyVector<T>& MyVector<T>::operator =(const MyVector& other){
 
 template<typename T>
 void MyVector<T>::push_back(const T& e){
-    // TODO: replace the code below with your code for this member
-    MYEXCEPTION("unimplemented method");
+    if (numberOfElements == capacity) {
+        capacity *= 2;
+        T* newStorage = new T[capacity];
+        std::copy(storage, storage + numberOfElements, newStorage);
+
+        delete[] storage;
+        storage = newStorage;
+    }
+    storage[numberOfElements] = e;
+    numberOfElements++;
 }
 
 template<typename T>
 void MyVector<T>::pop_back(){
-    // TODO: replace the code below with your code for this member
-    MYEXCEPTION("unimplemented method");
+    numberOfElements--;
 }
 
 template<typename T>
 T& MyVector<T>::operator[](unsigned i){
-    // TODO: replace the code below with your code for this member
-    MYEXCEPTION("unimplemented method");
+    return storage[i];
 }
 
 template<typename T>
 const T& MyVector<T>::operator[](unsigned i)const{
-    // TODO: replace the code below with your code for this member
-    MYEXCEPTION("unimplemented method");
+    return storage[i];
 }
 
 template<typename T>
 bool MyVector<T>::empty()const{
     // TODO: replace the code below with your code for this member
-    MYEXCEPTION("unimplemented method");
+    return numberOfElements == 0;
 }
 
 template<typename T>
 void MyVector<T>::clear(){
-    // TODO: replace the code below with your code for this member
-    MYEXCEPTION("unimplemented method");
+    delete[] storage;
+    storage = new T[1];
 }
 
 template<typename T>
 unsigned MyVector<T>::size()const{
-    // TODO: replace the code below with your code for this member
-    MYEXCEPTION("unimplemented method");
+    return numberOfElements;
 }
 
 template<typename T>
 T* MyVector<T>::begin(){
-    // TODO: replace the code below with your code for this member
-    MYEXCEPTION("unimplemented method");
+    return &storage[0];
 }
 
 template<typename T>
 T* MyVector<T>::end(){
-    // TODO: replace the code below with your code for this member
-    MYEXCEPTION("unimplemented method");
+    return &storage[0] + numberOfElements;
 }
 
 #endif // MY_VECTOR_H
