@@ -7,7 +7,7 @@
 #ifndef MY_VECTOR_H
 #define MY_VECTOR_H
 
-#include "MyException.h"
+//#include "MyException.h"
 
 template <typename T>
 class MyVector
@@ -57,20 +57,29 @@ MyVector<T>::MyVector(){
 
 template<typename T>
 MyVector<T>::~MyVector(){
-    // TODO: replace the code below with your code for this member
     delete[] storage;
 }
 
 template<typename T>
 MyVector<T>::MyVector(const MyVector& other){
-    // TODO: replace the code below with your code for this member
-    MYEXCEPTION("unimplemented method");
+    storage = new T[other.capacity];
+    std::copy(other.storage, other.storage + other.numberOfElements, storage);
+
+    capacity = other.capacity;
+    numberOfElements = other.numberOfElements;
 }
 
 template<typename T>
 MyVector<T>& MyVector<T>::operator =(const MyVector& other){
-    // TODO: replace the code below with your code for this member
-    MYEXCEPTION("unimplemented method");
+    if (!(other.storage == storage)) {
+        delete[] storage;
+        storage = new T[other.capacity];
+        std::copy(other.storage,other.storage + other.numberOfElements, storage);
+
+        capacity = other.capacity;
+        numberOfElements = other.numberOfElements;
+    }
+    return *this;
 }
 
 template<typename T>
@@ -104,7 +113,6 @@ const T& MyVector<T>::operator[](unsigned i)const{
 
 template<typename T>
 bool MyVector<T>::empty()const{
-    // TODO: replace the code below with your code for this member
     return numberOfElements == 0;
 }
 
@@ -112,6 +120,8 @@ template<typename T>
 void MyVector<T>::clear(){
     delete[] storage;
     storage = new T[1];
+    capacity = 1;
+    numberOfElements = 0;
 }
 
 template<typename T>
