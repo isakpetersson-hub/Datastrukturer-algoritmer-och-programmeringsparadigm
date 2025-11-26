@@ -7,7 +7,7 @@
 #ifndef MY_VECTOR_H
 #define MY_VECTOR_H
 
-//#include "MyException.h"
+#include "MyException.h"
 
 template <typename T>
 class MyVector
