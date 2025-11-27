@@ -42,8 +42,8 @@ void Simulation::scheduleEvent (Event * newEvent){
 
 
 void Simulation::harvestTonnageNow(unsigned target,  mt19937& generator){
-//    MyVector<Fish*> stillAlive;
-    std::vector<Fish*> stillAlive;
+    MyVector<Fish*> stillAlive;
+//    std::vector<Fish*> stillAlive;
     for(unsigned i=0; i < allTheFish.size(); ++i){
         assert(! allTheFish[i]->isCaught());
         if (allTheFish[i]->isDead()){
