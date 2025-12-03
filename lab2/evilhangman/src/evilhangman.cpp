@@ -66,7 +66,6 @@ int main() {
         // Gives each guess a binary representation and adds it to the Map
         // - 0 The letter is not there
         // - 1 The letter is there
-        guessCount--;
         guessedLetters.push_back(guess);
         map<string,unordered_set<string>> familyMap;
         for ( auto word: dict){
@@ -94,7 +93,14 @@ int main() {
                 largetSetSize = familyPair.second.size();
             }
         }
-
+        // If it is the last guess and there is a word with no correct guess choose that one
+        if ( guessCount == 1 ){
+            for ( auto familyPair: familyMap ){
+                if ( familyPair.first == "0000"){
+                    largetSetKey = familyPair.first;
+                }
+            }
+        }
         // Updates the dict of words left to the largest and puts the letter guessed into it's place if that is needed
         dict = familyMap.at(largetSetKey);
         for(unsigned int i = 0; i < largetSetKey.size(); i++){
@@ -102,8 +108,10 @@ int main() {
                 currentWord.replace(i,1, {guess});
             }
         }
-        if (largetSetKey.find( '1') == string::npos)
+        if (largetSetKey.find( '1') == string::npos){
             cout << "You guessed wrong" << endl;
+            guessCount--;
+        }
         else
             cout << "You guessed correct" << endl;
 
