@@ -5,6 +5,8 @@
  * Maintains the game state:  Location of all robots, junk and hero.
  */
 
+// rasda103 isape817
+
 #ifndef GAMESTATE_H
 #define GAMESTATE_H
 

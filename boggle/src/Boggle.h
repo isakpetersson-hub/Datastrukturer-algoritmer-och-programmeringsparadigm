@@ -36,7 +36,7 @@ private:
     bool isAlphabetical(const string& input);
     bool isValidWord(const string& word);
     void findAllWords(vector<string>& target);
-    bool hasBeenGuessed(const string& word, const vector<string>& guessedWords);
+    bool hasBeenGuessed(const string& word);
     bool containsWord(const string& word, const int size, int index, int r, int c);
     void checkNeighbours(vector<string>& target, string current, int r, int c);
     vector<tuple<int,int>> findNeighbours(int r, int c);

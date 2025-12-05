@@ -3,6 +3,8 @@
  * Ported to Qt and adapted for TDDD86, 2015.
  */
 
+// isape817 rasda103
+
 #ifndef ROBOT_H
 #define ROBOT_H
 

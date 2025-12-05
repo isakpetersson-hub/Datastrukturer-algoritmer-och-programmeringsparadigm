@@ -22,7 +22,6 @@ public:
 
     MyVector& operator =(const MyVector& other);
 
-
     void push_back(const T&);
 
     void pop_back();

@@ -1,8 +1,4 @@
-// This is the .cpp file you will edit and turn in.
-// We have provided a minimal skeleton for you,
-// but you must finish it as described in the spec.
-// Also remove these comments here and add your own.
-// TODO: remove this comment header and replace it with your own
+// isape817 rasda103
 
 #include <sstream>
 #include "Boggle.h"
@@ -19,7 +15,6 @@ static string CUBES[NUM_CUBES] = {        // the letters on all 6 sides of every
    "EIOSST", "ELRTTY", "HIMNQU", "HLNNRZ"
 };
 
-// TODO: implement the members you declared in Boggle.h
 
 void Boggle::setUpGame() {
     playerScore = computerScore = playerWordAmount = computerWordAmount = 0;
@@ -28,7 +23,7 @@ void Boggle::setUpGame() {
     board.resize(BOARD_SIZE, BOARD_SIZE);
     lexicon = Lexicon("EnglishWords.dat");
 
-    std::cout << "Do you want to generate a random board? " << std::ends;
+    std::cout << "Do you want to generate a random board? (Y/N): " << std::ends;
     while ( true ) {
         string answer;
         getline(cin, answer);
@@ -47,20 +42,23 @@ void Boggle::setUpGame() {
 }
 
 void Boggle::startGame() {	// Assumes the board already exists
-    cout << "It's your turn!" << endl;
+    std::cout << "It's your turn!" << endl;
 
     while( true ) {
         printBoard();
-        printf("\nYour score: %d", playerScore);
-        printf("\nType a word (or press Enter\n\tto end your turn): ");
+        // MOVE IO TO BOGGLEPLAY
+        std::cout << "Your score: " << playerScore << ", your words: " << wordsToString(playerWords) << endl;
+        std::cout << "Type a word (or press Enter" << std::endl << "\tto end your turn: " << std::ends;
+
         string input = "";
         getline(cin, input);
         if (input.size() == 0) {
             break;
         }
+
         input = toUpperCase(input);
         if (!isValidWord(input)) {
-            printf("\nNot a valid word!");
+            printf("\nNot a valid word!\n");
             continue;
         } else {
             playerWords.push_back(input);
@@ -68,7 +66,7 @@ void Boggle::startGame() {	// Assumes the board already exists
         }
     }
     findAllWords(computerWords);
-    printf("\nMy words (%zu): %s", computerWords.size(), wordsToString(playerWords).c_str());
+    std::cout << "My words (" << computerWords.size() << "): " << wordsToString(computerWords) << std::endl;
 }
 
 vector<tuple<int,int>> Boggle::findNeighbours(int r, int c){
@@ -84,18 +82,18 @@ vector<tuple<int,int>> Boggle::findNeighbours(int r, int c){
 }
 
 void Boggle::checkNeighbours(vector<string>& target, string current, int r, int c){
-    printf("\nChecking neighbours of r: %d, c: %d", r, c);
+    //printf("\nChecking neighbours of r: %d, c: %d", r, c);
     char letter = get<0>(board.get(r,c));
     current += letter;
-    printf("\nCurrent: %s", current.c_str());
+    //printf("\nCurrent: %s", current.c_str());
     board.set(r,c,{letter,true});
-    if (!hasBeenGuessed(current, computerWords) && lexicon.contains(current) && (current.size() >= 4)) {
+    if (!hasBeenGuessed(current) && lexicon.contains(current) && (current.size() >= 4)) {
         computerWords.push_back(current);
     }
     for ( auto n : findNeighbours(r,c)){
-        printf("\nInner Loop");
-        if ( !lexicon.containsPrefix(current + get<0>(board.get(get<0>(n),get<1>(n))))){
-            printf("\nConinuing... Word is: %s", string {current + get<0>(board.get(get<0>(n), get<1>(n)))}.c_str());
+        //printf("\nInner Loop");
+        if ( !lexicon.containsPrefix(current + get<0>(board.get(get<0>(n),get<1>(n)))) || get<1>(board.get(get<0>(n), get<1>(n)))){
+            //printf("\nConinuing... Word is: %s", string {current + get<0>(board.get(get<0>(n), get<1>(n)))}.c_str());
            continue;
         }
         checkNeighbours(target, current, get<0>(n), get<1>(n));
@@ -115,7 +113,7 @@ bool Boggle::isValidWord(const string& word) {
     if (word.size() < 4) {
         cout << "Word is too short" << endl;
         return false;
-    } else if (hasBeenGuessed(word, playerWords)) {
+    } else if (hasBeenGuessed(word)) {
         return false;
     } else if (!lexicon.contains(word)) {
         cout << "Word does not exist in lexicon" << endl;
@@ -135,25 +133,29 @@ bool Boggle::containsWord(const string& word, const int size, int index, int r=0
         for (int i = 0; i < BOARD_SIZE; i++) {
             for (int j = 0; j < BOARD_SIZE; j++) {
                 if (get<0>(board.get(i, j)) == soughtChar) {
+                    board.set(i, j, {soughtChar, true});
                     if (containsWord( word, size, index + 1, i, j )) {
                         return true;
                     }
+                    board.set(i, j, {soughtChar, false});
                 }
             }
         }
-        cout << "Word: " << word << ", Index: " << index << endl;
+        //cout << "Word: " << word << ", Index: " << index << endl;
         return false;
     } else {
         for (int i = -1; i <= 1; i++) {
             for (int j = -1; j <= 1; j++) {
-                if (board.inBounds(r+i, c+j) && (get<0>(board.get(r+i, c+j)) == soughtChar) && !((i == 0) && (j == 0))) {
+                if (board.inBounds(r+i, c+j) && (get<0>(board.get(r+i, c+j)) == soughtChar) && !((i == 0) && (j == 0)) && !get<1>(board.get(r+i, c+j))) {
+                    board.set(r+i, c+j, {soughtChar, true});
                     if (containsWord( word, size, index + 1, r + i, c + j )) {
                         return true;
                     }
+                    board.set(r+i, c+j, {soughtChar, false});
                 }
             }
         }
-        cout << "Word: " << word << ", Index: " << index << endl;
+        //cout << "Word: " << word << ", Index: " << index << endl;
         return false;
     }
 }
@@ -170,8 +172,13 @@ string Boggle::wordsToString(const vector<string>& words) {
     return output;
 }
 
-bool Boggle::hasBeenGuessed(const string& word, const vector<string>& guessedWords) {
-    for (auto& guessed : guessedWords) {
+bool Boggle::hasBeenGuessed(const string& word) {
+    for (string guessed : computerWords) {
+        if (word == guessed) {
+            return true;
+        }
+    }
+    for (string guessed : playerWords) {
         if (word == guessed) {
             return true;
         }

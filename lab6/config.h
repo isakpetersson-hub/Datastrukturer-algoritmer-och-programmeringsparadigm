@@ -17,7 +17,7 @@ const unsigned SPAWN_THRESHOLD= 0.05 * STARVE_THRESHOLD;
 // Harvesting
 const unsigned HARVEST_START= 1000;
 const unsigned HARVEST_PERIOD= 366;
-const unsigned MIN_CATCHABLE_AGE = 550;
+const unsigned MIN_CATCHABLE_AGE = 250;
 const unsigned MIN_KEPT_AGE = 600;
 const unsigned LANDING = 70000;
 

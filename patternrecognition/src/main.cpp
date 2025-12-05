@@ -4,6 +4,8 @@
  * in a file using Qt.
  */
 
+// rasda103 isape817
+
 #include <QApplication>
 #include <QGraphicsView>
 #include <QGraphicsScene>

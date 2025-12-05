@@ -3,6 +3,8 @@
  * Ported to Qt and adapted for TDDD86, 2015.
  */
 
+// isape817 rasda103
+
 #include "Hero.h"
 #include "constants.h"
 

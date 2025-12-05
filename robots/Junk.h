@@ -3,6 +3,9 @@
  * Ported to Qt and adapted for TDDD86, 2015.
  */
 
+
+// isape817 rasda103
+
 #ifndef JUNK_H
 #define JUNK_H
 
