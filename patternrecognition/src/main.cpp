@@ -90,10 +90,13 @@ void fast(const vector<Point>& points, QApplication& a, QGraphicsScene* scene, i
         vector<pair<float,Point>> slopes;
         for (int j = 0 ; j < N ; j++){
             if (i != j){
+                // Calculate the angle between i and j and at it to the vector
                slopes.emplace_back(origo.slopeTo(points.at(j)),points.at(j));
             }
         }
         sort(slopes.begin(), slopes.end());
+        // Sort the slopes by angle
+        // If several entries with the same angle exist, they are on the same line
         for ( unsigned int k = 0 ; k < slopes.size() ; k++ ){
             if ( slopes[k].first == slopes[k+1].first){
                     if ( slopes[k].first == slopes[k+2].first){
