@@ -1,8 +1,11 @@
+// isape817 rasda103
+
 #include "Simulation.h"
 #include <algorithm>
 #include <cassert>
 
 #include <iostream>
+#include <chrono>
 
 
 Simulation::Simulation():
@@ -22,7 +25,8 @@ Simulation::~Simulation(){
 
 
 void Simulation::run (){
-    while (! eventQueue.empty ()){
+    chrono::steady_clock::time_point begin = chrono::steady_clock::now();
+    while (!eventQueue.empty ()){
         Event * nextEvent = eventQueue.top ();
         eventQueue.pop ();
         if(simulationTime < SIMULATION_HORIZON){
@@ -33,6 +37,9 @@ void Simulation::run (){
         }
         delete nextEvent;
     }
+
+    chrono::steady_clock::time_point end = chrono::steady_clock::now();
+    cout << "Time difference = " << chrono::duration_cast<chrono::microseconds>(end - begin).count() << "[µs]" << endl;
 }
 
 

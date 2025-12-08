@@ -1,8 +1,4 @@
-// This is the first .h file you will edit
-// We have provided a skeleton for you,
-// but you must finish it as described in the spec.
-// Also remove these comments here and add your own, as well as on the members.
-// TODO: remove this comment header
+// isape817 rasda103
 
 #ifndef MY_VECTOR_H
 #define MY_VECTOR_H
@@ -94,6 +90,25 @@ void MyVector<T>::push_back(const T& e){
     storage[numberOfElements] = e;
     numberOfElements++;
 }
+
+/*
+template<typename T>
+void MyVector<T>::push_back(const T& e) {
+    if (numberOfElements == capacity) {
+        capacity *= 2;
+        T* newStorage = new T[capacity];
+        std::copy(storage, storage + numberOfElements, newStorage);
+
+        delete[] storage;
+        storage = newStorage;
+    }
+    storage[numberOfElements] = e;
+    numberOfElements++;
+    for (unsigned i = 0; i < numberOfElements; i++) {
+
+    }
+}
+*/
 
 template<typename T>
 void MyVector<T>::pop_back(){

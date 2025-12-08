@@ -4,6 +4,19 @@ anvands. Vilken funktion har de?
 
 > Svar:
 
+~Simulation: frigör alla resurser som använts av simulationen
+
+run: kör simulationen tills alla händelser har bearbetats
+
+scheduleEvent: lägger till en händelse i eventQueue
+
+harvestTonnageNow: avgör hur många fiskar som fortfarande lever och hur många som fångas
+
+addFish: lägger till en fisk i allTheFish
+
+eventQueue: en prioritetskö som innehåller alla händelser som ska inträffa
+
+allTheFish: en vector som innehåller alla levande fiskar i simulationen
 
 2) Experimentera med olika värden för parametrarna "LANDING" och
   "MIN_CATCHABLE_AGE". Fiskbeståndet kollapsar när antalet fisk blir
@@ -18,9 +31,12 @@ anvands. Vilken funktion har de?
   experiment som förklarar relationen mellan produktionen ("LANDING")
   och storleken på näten ("MIN_CATCHABLE_AGE").
 
-> Svar:
+> Svar: Hållbarheten påverkas av båda. För stor produktion leder till
+        överbefolkning, vilket tillsammans med mindre nät leder till att
+        fiskarna svälter.
 
-
+LANDING = 80,000
+MIN_CATCHABLE_AGE = 300
 
 
 3) Identifiera var Fish och Event objekten allokeras dynamiskt (med
@@ -31,17 +47,18 @@ anvands. Vilken funktion har de?
   
   a. Upptäcker Valgrind några minnesläckor?
 
-  > Svar:
+  > Svar: Nej
 
 
 
   b. Kan du skapa minnesläckor igenom att kommentera en rad i koden? I
   så fall vilken rad i vilken fil? Argumentera annars.
 
-  > Svar:
+  > Svar: Rad 18 i Simulation.cpp, eftersom den ansvarar för att deallokera 
+          minnet för fiskarna.
 
 
-4) Jämför effektivitet: Jämför skillnad i hur långt tid det
+4) Jämför effektivitet: Jämför skillnad i hur lång tid det
   tar att köra simuleringen med en "MyVector" där
   "push_back" har O(1) amorterade tids komplexitet,
   och en där "push_back" har O(N) amorterade tids
@@ -52,4 +69,6 @@ anvands. Vilken funktion har de?
   i header filer tas hänsyn till.) 
 
 > Svar: 
+    Tid med O(1): 8681  mikrosekunder
+    Tid med O(n): 47047 mikrosekunder
 
