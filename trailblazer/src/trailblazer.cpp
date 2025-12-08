@@ -1,7 +1,4 @@
-// This is the CPP file you will edit and turn in.
-// Also remove these comments here and add your own, along with
-// comments on every function and on complex code sections.
-// TODO: write comment header for this file; remove this comment
+// isape817 rasda103
 
 #include "costs.h"
 #include <algorithm>
@@ -23,6 +20,15 @@ vector<Node *> getValidNeighbours(const Vertex* const vertex) {
     return neighbours;
 }
 
+void reconstructPath(Vertex* vertex, vector<Vertex*>& path) {
+    while (vertex != nullptr) {
+        path.push_back(vertex);
+        vertex = vertex->previous;
+    }
+
+    reverse(path.begin(), path.end());
+}
+
 vector<Node *> depthFirstSearch(BasicGraph& graph, Vertex* start, Vertex* end) {
     graph.resetData();
 
@@ -34,11 +40,7 @@ vector<Node *> depthFirstSearch(BasicGraph& graph, Vertex* start, Vertex* end) {
         Vertex* vertex = vertexStack.pop();
         if (vertex == end) {
             // Reconstruct the path
-            do {
-                path.push_back(vertex);
-                vertex = vertex->previous;
-            } while (vertex != start);
-            path.push_back(start);
+            reconstructPath(vertex, path);
             break;
             // Exit the loop since we have a path
         } else if (!vertex->visited) {
@@ -62,8 +64,6 @@ vector<Node *> depthFirstSearch(BasicGraph& graph, Vertex* start, Vertex* end) {
         }
     }
 
-    reverse(path.begin(), path.end());
-
     return path;
 }
 
@@ -83,28 +83,20 @@ vector<Node *> breadthFirstSearch(BasicGraph& graph, Vertex* start, Vertex* end)
         vertex->visited = true;
 
         if (vertex == end) {
-            // Reconstruct the path
-            do {
-                path.push_back(vertex);
-                vertex = vertex->previous;
-            } while (vertex != start);
-            path.push_back(start);
+            reconstructPath(vertex, path);
             break;
         }
 
         vector<Vertex*> neighbours = getValidNeighbours(vertex);
-        if (neighbours.empty()) {
-            // do the dfs mark gray thing
-        } else {
-            for (Vertex* v : neighbours) {
-                v->setColor(YELLOW);
-                v->previous= vertex;
-                vertexQueue.push(v);
+        if (!neighbours.empty()) {
+           for (Vertex* v : neighbours) {
+               // Marked yellow since they'll be in the queue now
+               v->setColor(YELLOW);
+               v->previous= vertex;
+               vertexQueue.push(v);
             }
         }
     }
-
-    reverse(path.begin(), path.end());
 
     return path;
 }
@@ -124,18 +116,14 @@ vector<Node *> dijkstrasAlgorithm(BasicGraph& graph, Vertex* start, Vertex* end)
         vertex->visited = true;
 
         if (vertex == end) {
-            // Reconstruct the path
-            do {
-                path.push_back(vertex);
-                vertex = vertex->previous;
-            } while (vertex != start);
-            path.push_back(start);
+            reconstructPath(vertex, path);
             break;
         }
 
         for (Edge* edge : vertex->arcs) {
             Vertex* next = edge->finish;
             if ((next->cost == 0) || (next->cost > edge->cost + vertex->cost)) {
+                // Calculated cost is cheaper than current cost (or vertex hasn't been examined before)
                 next->cost = edge->cost + vertex->cost;
                 next->previous = vertex;
                 vertexQueue.enqueue(next, next->cost);
@@ -144,8 +132,6 @@ vector<Node *> dijkstrasAlgorithm(BasicGraph& graph, Vertex* start, Vertex* end)
         }
     }
 
-    reverse(path.begin(), path.end());
-
     return path;
 }
 
@@ -153,6 +139,9 @@ vector<Node *> aStar(BasicGraph& graph, Vertex* start, Vertex* end) {
     graph.resetData();
 
     vector<Vertex*> path;
+    if (start == end)
+        return path;
+
     PriorityQueue<Vertex*> vertexQueue;
 
     vertexQueue.enqueue(start, 0);
@@ -165,11 +154,7 @@ vector<Node *> aStar(BasicGraph& graph, Vertex* start, Vertex* end) {
 
         if (vertex == end) {
             // Reconstruct the path
-            do {
-                path.push_back(vertex);
-                vertex = vertex->previous;
-            } while (vertex != start);
-            path.push_back(start);
+            reconstructPath(vertex, path);
             break;
         }
 
@@ -181,13 +166,12 @@ vector<Node *> aStar(BasicGraph& graph, Vertex* start, Vertex* end) {
             if ((next->cost == 0) || (next->cost > edge->cost + vertex->cost)) {
                 next->cost = edge->cost + vertex->cost;
                 next->previous = vertex;
+
                 vertexQueue.enqueue(next, next->cost + next->heuristic(end));
                 next->setColor(YELLOW);
             }
         }
     }
-
-    reverse(path.begin(), path.end());
 
     return path;
 }
