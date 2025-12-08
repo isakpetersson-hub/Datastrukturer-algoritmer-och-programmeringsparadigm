@@ -6,6 +6,7 @@
 #include "costs.h"
 #include <algorithm>
 #include <queue>
+#include "pqueue.h"
 #include "trailblazer.h"
 // TODO: include any other headers you need; remove this comment
 using namespace std;
@@ -109,11 +110,41 @@ vector<Node *> breadthFirstSearch(BasicGraph& graph, Vertex* start, Vertex* end)
 }
 
 vector<Node *> dijkstrasAlgorithm(BasicGraph& graph, Vertex* start, Vertex* end) {
-    // TODO: implement this function; remove these comments
-    //       (The function body code provided below is just a stub that returns
-    //        an empty vector so that the overall project will compile.
-    //        You should remove that code and replace it with your implementation.)
+    graph.resetData();
+    PriorityQueue<Vertex*> vertexQueue;
     vector<Vertex*> path;
+
+    vertexQueue.enqueue(start, 0);
+
+    while (!vertexQueue.isEmpty()) {
+        Vertex* vertex = vertexQueue.dequeue();
+
+        vertex->setColor(GREEN);
+        vertex->visited = true;
+
+        if (vertex == end) {
+            // Reconstruct the path
+            do {
+                path.push_back(vertex);
+                vertex = vertex->previous;
+            } while (vertex != start);
+            path.push_back(start);
+            break;
+        }
+
+        for (Edge* edge : vertex->arcs) {
+            Vertex* next = edge->finish;
+            if ((next->cost == 0) || (next->cost > edge->cost + vertex->cost)) {
+                next->cost = edge->cost + vertex->cost;
+                next->previous = vertex;
+                vertexQueue.enqueue(next, next->cost);
+                next->setColor(YELLOW);
+            }
+        }
+    }
+
+    reverse(path.begin(), path.end());
+
     return path;
 }
 
