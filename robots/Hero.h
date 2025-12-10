@@ -21,6 +21,11 @@ public:
     */
     void draw(QGraphicsScene *scene) const override;
 
+    bool isAlive() const override;
+
+    void doCrash() override;
+
+    bool isToBeJunked() const override;
 };
 
 #endif // HERO_H

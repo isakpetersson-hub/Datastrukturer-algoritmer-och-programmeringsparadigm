@@ -42,6 +42,7 @@ void Unit::teleport() {
     y = rand_int (MIN_Y, MAX_Y);
 }
 
+/*
 double Unit::distanceTo(const Unit& u) const {
     double dx = u.x - x;
     double dy = u.y - y;
@@ -59,10 +60,11 @@ bool Unit::isToBeJunked() const {
 }
 
 void Unit::draw( QGraphicsScene *scene ) const {}
+*/
 
 /*
  * Put this unit inside playing field if outside
- */
+*/
 void Unit::checkBounds() {
     if (x < MIN_X) x = MIN_X;
     if (x > MAX_X) x = MAX_X;

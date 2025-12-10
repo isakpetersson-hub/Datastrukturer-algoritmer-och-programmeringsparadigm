@@ -58,13 +58,13 @@ public:
     */
     double distanceTo(const Unit& u) const;
 
-    virtual bool isAlive() const;
+    virtual bool isAlive() const = 0;
 
-    virtual void doCrash();
+    virtual void doCrash() = 0;
 
-    virtual bool isToBeJunked() const;
+    virtual bool isToBeJunked() const = 0;
 
-    virtual void draw( QGraphicsScene* scene ) const;
+    virtual void draw( QGraphicsScene* scene ) const = 0;
 
 private:
     int x;  // x position of this unit
