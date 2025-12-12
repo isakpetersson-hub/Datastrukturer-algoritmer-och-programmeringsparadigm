@@ -45,8 +45,8 @@ private:
 
 template<typename T>
 MyVector<T>::MyVector(){
-    storage = new T[1];
     capacity = 1;
+    storage = new T[capacity];
     numberOfElements = 0;
 }
 

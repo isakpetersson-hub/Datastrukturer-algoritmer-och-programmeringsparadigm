@@ -1,10 +1,10 @@
+// rasda103 isape817
+
 /*
  * TDDD86 Pattern Recognition
  * This program computes and plots all line segments involving 4 points
  * in a file using Qt.
  */
-
-// rasda103 isape817
 
 #include <QApplication>
 #include <QGraphicsView>

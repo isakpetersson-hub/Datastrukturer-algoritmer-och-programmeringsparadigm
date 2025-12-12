@@ -5,8 +5,6 @@
  * Your code should work properly with an unmodified version of this file.
  */
 
-// isape817 rasda103
-
 #ifndef POINT_H
 #define POINT_H
 
