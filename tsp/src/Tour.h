@@ -37,6 +37,16 @@ public:
      * Walks through the nodes in the tour and returns the total distance
      */
 
+    void opt2();
+    /*
+     * Goes through an existing tour and makes sure no path crosses another path
+     */
+
+    void swap(Node* start, Node* end);
+    /*
+     * Used to help with opt2, swaps nodes so that paths don't cross
+     */
+
     void insertNearest(Point p);
     /*
      * Searches through the tour to find the node which is nearest to the point p, and then inserts p after that node

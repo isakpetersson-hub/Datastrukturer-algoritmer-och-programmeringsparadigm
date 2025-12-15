@@ -90,6 +90,36 @@ double Tour::distance()
     return distance;
 }
 
+void Tour::opt2() {
+    bool startOver = true;
+    while (startOver) {
+        startOver = false;
+
+        Node* outerCurrent = first->next;
+        Node* prev = first;
+
+        do {
+            Node* innerCurrent = outerCurrent->next;
+
+            do {
+                bool shouldSwap = prev->point.distanceTo(innerCurrent->point) +
+                        outerCurrent->point.distanceTo(innerCurrent->next->point) <
+                        prev->point.distanceTo(outerCurrent->point) +
+                        innerCurrent->point.distanceTo(innerCurrent->next->point);
+
+                if (shouldSwap) {
+                    startOver = true;
+                    swap(outerCurrent, innerCurrent);
+                }
+            }
+        }
+    }
+}
+
+void Tour::swap(Node* start, Node* end) {
+
+}
+
 void Tour::insertNearest(Point p)
 {
     if ( first == nullptr ) {

@@ -19,7 +19,7 @@
 int main(int argc, char *argv[]) {
     QApplication a(argc, argv);
 
-    string filename = "tsp1000.txt";
+    string filename = "tsp100.txt";
     ifstream input;
     input.open(filename);
 
