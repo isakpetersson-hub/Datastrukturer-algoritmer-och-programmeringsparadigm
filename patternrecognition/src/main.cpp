@@ -101,7 +101,7 @@ void fast(const vector<Point>& points, QApplication& a, QGraphicsScene* scene, i
             if ( slopes[k].first == slopes[k+1].first){
                     if ( slopes[k].first == slopes[k+2].first){
                         render_line(scene, points.at(i), slopes[k].second);
-                        a.processEvents(); // show rendered line
+                        a.processEvents(); // render the line
                     } else{
                         k++;
                 }
