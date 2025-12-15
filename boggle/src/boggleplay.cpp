@@ -15,8 +15,23 @@
  * Plays one game of Boggle using the given boggle game state object.
  */
 void playOneGame(Boggle& boggle) {
-    // TODO: implement this function (and add any other functions you like to help you)
-    boggle.setUpGame();
+    std::cout << "Do you want to generate a random board? (Y/N): " << std::ends;
+    while ( true ) {
+        string answer;
+        getline(cin, answer);
+        answer = trim(toLowerCase(answer));
+
+        if (startsWith(answer, 'y')) {
+            boggle.setUpGame(true);
+            break;
+        }
+        if (startsWith(answer, 'n')) {
+            boggle.setUpGame(false);
+            break;
+        }
+        std::cout << "'" << answer << "' is not a valid response!" << endl;
+    }
+
     boggle.startGame();
 }
 

@@ -16,29 +16,18 @@ static string CUBES[NUM_CUBES] = {        // the letters on all 6 sides of every
 };
 
 
-void Boggle::setUpGame() {
+void Boggle::setUpGame(bool shuffle) {
     playerScore = computerScore = playerWordAmount = computerWordAmount = 0;
     playerWords.clear();
     computerWords.clear();
     board.resize(BOARD_SIZE, BOARD_SIZE);
     lexicon = Lexicon("EnglishWords.dat");
 
-    std::cout << "Do you want to generate a random board? (Y/N): " << std::ends;
-    while ( true ) {
-        string answer;
-        getline(cin, answer);
-        answer = trim(toLowerCase(answer));
+    if (shuffle)
+        shuffleBoard();
+    else
+        inputBoard();
 
-        if (startsWith(answer, 'y')) {
-            shuffleBoard();
-            break;
-        }
-        if (startsWith(answer, 'n')) {
-            inputBoard();
-            break;
-        }
-        std::cout << "'" << answer << "' is not a valid response!" << endl;
-    }
 }
 
 void Boggle::startGame() {	// Assumes the board already exists

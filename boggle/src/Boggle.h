@@ -23,7 +23,7 @@ public:
     const int MIN_WORD_LENGTH = 4;
     const int BOARD_SIZE = 4;
 
-    void setUpGame();
+    void setUpGame(bool shuffle);
     void startGame();
 
 private:
