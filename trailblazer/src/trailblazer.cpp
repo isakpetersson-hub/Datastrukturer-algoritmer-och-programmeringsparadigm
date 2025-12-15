@@ -5,10 +5,11 @@
 #include <queue>
 #include "pqueue.h"
 #include "trailblazer.h"
-// TODO: include any other headers you need; remove this comment
+
 using namespace std;
 
 vector<Node *> getValidNeighbours(const Vertex* const vertex) {
+    // Used for BFS and DFS
     vector<Vertex*> neighbours;
 
     for (Edge* edge : vertex->arcs) {
