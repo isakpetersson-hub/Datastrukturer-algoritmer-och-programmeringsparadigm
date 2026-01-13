@@ -1,6 +1,4 @@
-// You will edit and turn in this CPP file.
-// Also remove these comments here and add your own.
-// TODO: remove this comment header and replace with your own
+// isape817 rasda103
 
 #include <cstdlib>
 #include <iostream>
@@ -9,7 +7,6 @@
 #include "Boggle.h"
 #include "bogglemain.h"
 #include "strlib.h"
-// TODO: include any other header files you need
 
 /*
  * Plays one game of Boggle using the given boggle game state object.
